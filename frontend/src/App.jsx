@@ -7,6 +7,8 @@ import Cart from './components/Cart';
 import AuthForm from './components/AuthForm';
 import Analytics from './components/Analytics';
 import LandingPage from './components/LandingPage';
+import ProviderDashboard from './components/ProviderDashboard';
+import CourierDashboard from './components/CourierDashboard';
 import { Leaf, ShoppingBag, ShieldAlert, Sparkles, MapPin } from 'lucide-react';
 
 export default function App() {
@@ -35,8 +37,8 @@ export default function App() {
         
         if (response.ok) {
           const result = await response.json();
-          // Soporta tanto array directo como objeto { data: [] }
-          const prodList = result.data || result;
+          // Soporta products (API PostgreSQL), data, o array directo
+          const prodList = result.products || result.data || result;
           
           // Formateo de tipos de datos provenientes de PostgreSQL (Numéricos suelen llegar como strings)
           const formatted = prodList.map(p => ({
@@ -117,15 +119,21 @@ export default function App() {
       {/* Contenido Principal (Fondo Blanco) */}
       <main className="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
         
-        {/* VISTA: INICIO */}
+        {/* VISTA: INICIO / PANEL CONDICIONAL POR ROL */}
         {activeTab === 'inicio' && (
-          <LandingPage 
-            productos={productos} 
-            setActiveTab={setActiveTab} 
-            setSearchQuery={setSearchQuery} 
-            gpsLocation={gpsLocation} 
-            onAddToCart={handleAddToCart} 
-          />
+          !user || user.rol === 'cliente' || user.rol === 'administrador' ? (
+            <LandingPage 
+              productos={productos} 
+              setActiveTab={setActiveTab} 
+              setSearchQuery={setSearchQuery} 
+              gpsLocation={gpsLocation} 
+              onAddToCart={handleAddToCart} 
+            />
+          ) : user.rol === 'proveedor' ? (
+            <ProviderDashboard user={user} />
+          ) : (
+            <CourierDashboard user={user} />
+          )
         )}
 
         {/* VISTA: ¿QUÉ ES ALIMOP? */}

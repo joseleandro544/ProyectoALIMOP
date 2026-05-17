@@ -4,3 +4,21 @@ Reinitialized existing Git repository in C:/Users/ENBOG16/OneDrive - Grupo Energ
 2. Añadiendo remotos... 
 error: remote origin already exists.
 3. Preparando archivos... 
+warning: in the working copy of 'registro_git.txt', LF will be replaced by CRLF the next time Git touches it
+4. Creando commit... 
+On branch main
+Your branch is ahead of 'origin/main' by 5 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   registro_git.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+5. Renombrando rama... 
+6. Subiendo a GitHub... 
+To https://github.com/joseleandro544/ProyectoALIMOP.git
+   8ee3d50..b09af3c  main -> main
+branch 'main' set up to track 'origin/main'.
+----- FIN DEL PROCESO ----- 
