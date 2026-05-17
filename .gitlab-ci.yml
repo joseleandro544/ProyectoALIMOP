@@ -1,37 +1,47 @@
-image: node:18-alpine
+image: docker:20.10.16
+services:
+  - docker:20.10.16-dind
 
-# Etapas del pipeline
+variables:
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_IMAGE_FRONTEND: docker.io/joseleandro14/alimop-frontend
+  DOCKER_IMAGE_BACKEND: docker.io/joseleandro14/alimop-backend
+
 stages:
-  - build
-  - deploy
+  - build-docker
+  - deploy-pages
 
-# Caché de node_modules para acelerar los builds
-cache:
-  paths:
-    - frontend/node_modules/
-
-# Compilar la aplicación React (Vite)
-build_frontend:
-  stage: build
+# Etapa 1: Construir y subir contenedores a Docker Hub
+build_containers:
+  stage: build-docker
+  before_script:
+    # Estas variables deben configurarse en GitLab -> Settings -> CI/CD -> Variables
+    - echo "Iniciando sesión en Docker Hub con usuario joseleandro14..."
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   script:
-    - echo "Compilando la Interfaz Web de ALIMOP..."
+    - echo "Compilando imagen del Frontend Nginx..."
+    - docker build -t $DOCKER_IMAGE_FRONTEND:latest ./frontend
+    - echo "Compilando imagen del Backend Node.js..."
+    - docker build -t $DOCKER_IMAGE_BACKEND:latest ./backend
+    - echo "Subiendo imágenes a Docker Hub..."
+    - docker push $DOCKER_IMAGE_FRONTEND:latest
+    - docker push $DOCKER_IMAGE_BACKEND:latest
+  only:
+    - main
+    - master
+
+# Etapa 2: Desplegar la visualización en GitLab Pages
+pages:
+  image: node:18-alpine
+  stage: deploy-pages
+  script:
+    - echo "Preparando despliegue de UI estática para GitLab Pages..."
     - cd frontend
     - npm install
-    # En GitLab Pages, el base path debe coincidir con el nombre del repositorio
     - npm run build -- --base=/ProyectoALIMOP/
-  artifacts:
-    paths:
-      - frontend/dist/
-    expire_in: 1 hour
-
-# Desplegar en GitLab Pages
-pages:
-  stage: deploy
-  script:
-    - echo "Preparando despliegue para GitLab Pages..."
+    - cd ..
     - mkdir -p public
     - cp -r frontend/dist/* public/
-    - echo "Despliegue exitoso. La página estará disponible en breve."
   artifacts:
     paths:
       - public

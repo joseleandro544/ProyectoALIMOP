@@ -20,6 +20,7 @@ services:
 
   # 2. Servidor Backend Node.js
   backend:
+    image: joseleandro14/alimop-backend:latest
     build: 
       context: ./backend
     container_name: alimop_backend
@@ -41,6 +42,7 @@ services:
 
   # 3. Aplicación Frontend React + Nginx
   frontend:
+    image: joseleandro14/alimop-frontend:latest
     build:
       context: ./frontend
     container_name: alimop_frontend

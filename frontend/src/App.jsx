@@ -21,126 +21,45 @@ export default function App() {
     lng: -74.037800
   });
 
-  // Catálogo de productos semilla (simulación en español)
-  const [productos, setProductos] = useState([
-    {
-      id: 1,
-      nombre: "Bolsa de Pan Artesanal Integral",
-      nombre_establecimiento: "Panadería El Trigal",
-      descripcion: "Pan horneado esta mañana con masa madre y semillas de linaza.",
-      precio_original: 8500,
-      precio_descuento: 3400,
-      stock: 4,
-      dias_vencimiento: 1,
-      categoria: "Panadería",
-      imagen_url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 1.2
-    },
-    {
-      id: 2,
-      nombre: "Yogurt Griego de Arándanos x4",
-      nombre_establecimiento: "Supermercado Carulla",
-      descripcion: "Pack de yogurt griego descremado. Lote con vencimiento al final del día de hoy.",
-      precio_original: 16500,
-      precio_descuento: 6600,
-      stock: 3,
-      dias_vencimiento: 0,
-      categoria: "Lácteos",
-      imagen_url: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 0.8
-    },
-    {
-      id: 3,
-      nombre: "Caja de Tomates Chonto y Cebolla",
-      nombre_establecimiento: "Fruver Calle 140",
-      descripcion: "Verduras mixtas excedentes de hoy. Ideales para guisos.",
-      precio_original: 12000,
-      precio_descuento: 4800,
-      stock: 6,
-      dias_vencimiento: 2,
-      categoria: "Verduras",
-      imagen_url: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 1.6
-    },
-    {
-      id: 4,
-      nombre: "Manzanas Rojas Orgánicas x6",
-      nombre_establecimiento: "Fruver Calle 140",
-      descripcion: "Bolsa de manzanas rojas frescas listas para consumo, mermas de inventario.",
-      precio_original: 14500,
-      precio_descuento: 7250,
-      stock: 6,
-      dias_vencimiento: 3,
-      categoria: "Frutas",
-      imagen_url: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 1.6
-    },
-    {
-      id: 5,
-      nombre: "Lentejas y Frijol Cargamanto (Kilo)",
-      nombre_establecimiento: "Granero El Campesino",
-      descripcion: "Granos secos con empaque averiado pero producto en perfecto estado.",
-      precio_original: 9000,
-      precio_descuento: 4500,
-      stock: 12,
-      dias_vencimiento: 15,
-      categoria: "Granos",
-      imagen_url: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 2.5
-    },
-    {
-      id: 6,
-      nombre: "Corte de Res Especial (500g)",
-      nombre_establecimiento: "Carnicería La Suprema",
-      descripcion: "Corte fresco del día, ideal para congelar o consumir inmediatamente.",
-      precio_original: 28000,
-      precio_descuento: 14000,
-      stock: 2,
-      dias_vencimiento: 0,
-      categoria: "Carnes",
-      imagen_url: "https://images.unsplash.com/photo-1603048297172-c92544798d5e?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 3.1
-    },
-    {
-      id: 7,
-      nombre: "Combo Hamburguesa Clásica",
-      nombre_establecimiento: "Burger Food Truck",
-      descripcion: "Pedido cancelado en perfecto estado. Entrega inmediata.",
-      precio_original: 22000,
-      precio_descuento: 8800,
-      stock: 1,
-      dias_vencimiento: 0,
-      categoria: "Comidas Rápidas",
-      imagen_url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 0.5
-    },
-    {
-      id: 8,
-      nombre: "Surtido de Aseo y Galletas",
-      nombre_establecimiento: "Tienda de Barrio Don Pepe",
-      descripcion: "Productos de tienda variados próximos a fecha límite de venta.",
-      precio_original: 15000,
-      precio_descuento: 6000,
-      stock: 3,
-      dias_vencimiento: 4,
-      categoria: "Tienda",
-      imagen_url: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 0.3
-    },
-    {
-      id: 9,
-      nombre: "Plato Fuerte: Pechuga a la Plancha",
-      nombre_establecimiento: "Restaurante El Cafeto",
-      descripcion: "Menú del día sobrante. Empacado al vacío para mantener frescura.",
-      precio_original: 18000,
-      precio_descuento: 7200,
-      stock: 4,
-      dias_vencimiento: 0,
-      categoria: "Restaurante",
-      imagen_url: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 1.1
-    }
-  ]);
+  // Catálogo de productos desde la Base de Datos PostgreSQL
+  const [productos, setProductos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  React.useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setIsLoading(true);
+        // Conexión real al Backend Node.js
+        const API_URL = 'http://localhost:5000/api';
+        const response = await fetch(`${API_URL}/products?lat=${gpsLocation.lat}&lng=${gpsLocation.lng}`);
+        
+        if (response.ok) {
+          const result = await response.json();
+          // Soporta tanto array directo como objeto { data: [] }
+          const prodList = result.data || result;
+          
+          // Formateo de tipos de datos provenientes de PostgreSQL (Numéricos suelen llegar como strings)
+          const formatted = prodList.map(p => ({
+            ...p,
+            precio_original: parseFloat(p.precio_original) || 0,
+            precio_descuento: parseFloat(p.precio_descuento) || 0,
+            dias_vencimiento: parseInt(p.dias_vencimiento) || 0,
+            distancia_base: parseFloat(p.distancia_km) || p.distancia_base || 1.0
+          }));
+          
+          setProductos(formatted);
+        } else {
+          console.error("Error cargando el catálogo desde PostgreSQL");
+        }
+      } catch (error) {
+        console.error("Error conectando al servidor Backend. Asegúrate de encenderlo en el puerto 5000.", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    fetchProducts();
+  }, [gpsLocation]);
 
   // Carrito Lógica
   const handleAddToCart = (product) => {

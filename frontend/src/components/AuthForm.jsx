@@ -28,64 +28,69 @@ export default function AuthForm({ onLoginSuccess, onRegisterSuccess }) {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
     
     if (isLogin) {
-      // Simular login exitoso
       if (!formData.email || !formData.password) {
-        setMessage({ text: 'Por favor complete todos los campos', type: 'error' });
+        setMessage({ text: 'Por favor complete todos los campos obligatorios', type: 'error' });
         return;
       }
       
-      // Simulación de roles por email de prueba
-      let simulatedRole = 'cliente';
-      let nombre = 'Juan Gómez';
-      if (formData.email.includes('proveedor') || formData.email.includes('carulla') || formData.email.includes('trigal')) {
-        simulatedRole = 'proveedor';
-        nombre = 'Supermercado Carulla';
-      } else if (formData.email.includes('domicilio') || formData.email.includes('moto')) {
-        simulatedRole = 'domiciliario';
-        nombre = 'Camilo Torres (Repartidor)';
-      } else if (formData.email.includes('admin')) {
-        simulatedRole = 'administrador';
-        nombre = 'Alejandro Restrepo (Administrador)';
+      try {
+        const response = await fetch(`${API_URL}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          setMessage({ text: `¡Inicio de sesión exitoso! Bienvenido de nuevo.`, type: 'success' });
+          // Guardar token JWT en localStorage para futuras peticiones (como compras)
+          localStorage.setItem('alimop_token', data.token);
+          setTimeout(() => {
+            onLoginSuccess(data.usuario);
+          }, 1000);
+        } else {
+          setMessage({ text: data.mensaje || 'Contraseña incorrecta o usuario no encontrado', type: 'error' });
+        }
+      } catch (error) {
+        setMessage({ text: 'Error conectando con PostgreSQL (¿Está encendido el Backend?)', type: 'error' });
       }
 
-      setMessage({ text: `¡Inicio de sesión exitoso! Bienvenido ${nombre}.`, type: 'success' });
-      
-      setTimeout(() => {
-        onLoginSuccess({
-          id: 99,
-          nombre_completo: nombre,
-          email: formData.email,
-          rol: simulatedRole,
-          telefono: '3189990000',
-          perfil: {
-            puntos_fidelidad: 120,
-            puntos_sostenibilidad: 350
-          }
-        });
-      }, 1000);
-
     } else {
-      // Simular registro exitoso
       if (!formData.nombre_completo || !formData.email || !formData.password || !formData.telefono) {
         setMessage({ text: 'Por favor llene los campos obligatorios principales', type: 'error' });
         return;
       }
 
-      setMessage({ text: `¡Registro transaccional atómico exitoso! Perfil de ${rol.toUpperCase()} guardado en base de datos.`, type: 'success' });
-      
-      setTimeout(() => {
-        onRegisterSuccess({
-          id: 101,
-          nombre_completo: formData.nombre_completo,
-          email: formData.email,
-          rol: rol,
-          telefono: formData.telefono
+      try {
+        // Enviar payload completo de registro, con datos atómicos 1:1 según el rol
+        const response = await fetch(`${API_URL}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...formData, rol: rol })
         });
-      }, 1500);
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          setMessage({ text: `¡Registro transaccional exitoso en PostgreSQL! Tu perfil de ${rol.toUpperCase()} fue creado.`, type: 'success' });
+          setTimeout(() => {
+            onRegisterSuccess(data.usuario);
+          }, 1500);
+        } else {
+          setMessage({ text: data.mensaje || 'Error en el registro (Puede que el email ya exista)', type: 'error' });
+        }
+      } catch (error) {
+        setMessage({ text: 'Error conectando con PostgreSQL', type: 'error' });
+      }
     }
   };
 
