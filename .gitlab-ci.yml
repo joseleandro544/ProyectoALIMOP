@@ -1,0 +1,40 @@
+image: node:18-alpine
+
+# Etapas del pipeline
+stages:
+  - build
+  - deploy
+
+# Caché de node_modules para acelerar los builds
+cache:
+  paths:
+    - frontend/node_modules/
+
+# Compilar la aplicación React (Vite)
+build_frontend:
+  stage: build
+  script:
+    - echo "Compilando la Interfaz Web de ALIMOP..."
+    - cd frontend
+    - npm install
+    # En GitLab Pages, el base path debe coincidir con el nombre del repositorio
+    - npm run build -- --base=/ProyectoALIMOP/
+  artifacts:
+    paths:
+      - frontend/dist/
+    expire_in: 1 hour
+
+# Desplegar en GitLab Pages
+pages:
+  stage: deploy
+  script:
+    - echo "Preparando despliegue para GitLab Pages..."
+    - mkdir -p public
+    - cp -r frontend/dist/* public/
+    - echo "Despliegue exitoso. La página estará disponible en breve."
+  artifacts:
+    paths:
+      - public
+  only:
+    - main
+    - master

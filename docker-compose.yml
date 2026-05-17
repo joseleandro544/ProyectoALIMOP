@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # 1. Base de Datos PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: alimop_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-Leo1406}
+      POSTGRES_DB: db.alimop
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - alimop_net
+
+  # 2. Servidor Backend Node.js
+  backend:
+    build: 
+      context: ./backend
+    container_name: alimop_backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DB_USER=postgres
+      - DB_HOST=db
+      - DB_NAME=db.alimop
+      - DB_PASSWORD=${DB_PASSWORD:-Leo1406}
+      - DB_PORT=5432
+      - JWT_SECRET=super_secreto_alimop_jwt_2026
+    depends_on:
+      - db
+    networks:
+      - alimop_net
+
+  # 3. Aplicación Frontend React + Nginx
+  frontend:
+    build:
+      context: ./frontend
+    container_name: alimop_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - alimop_net
+
+volumes:
+  pgdata:
+
+networks:
+  alimop_net:
+    driver: bridge
