@@ -74,13 +74,13 @@ export default function ProductCard({ product, userLocation, onAddToCart }) {
         {/* Precios y Botón */}
         <div className="border-t border-slate-100 pt-4 mt-auto">
           <div className="flex items-baseline justify-between mb-3">
-            <div className="space-x-1.5 flex items-baseline">
-              <span className="text-lg font-extrabold text-blue-800">
-                ${product.precio_descuento.toLocaleString('es-CO')} COP
+            <div className="space-x-1.5 flex items-baseline flex-wrap">
+              <span className="text-xl font-black text-blue-900">
+                ${product.precio_descuento.toLocaleString('es-CO')} <span className="text-xs font-bold text-blue-600">COP</span>
               </span>
               {product.precio_original > 0 && (
-                <span className="text-xs text-slate-400 line-through">
-                  ${product.precio_original.toLocaleString('es-CO')}
+                <span className="text-xs font-bold text-slate-400 line-through">
+                  ${product.precio_original.toLocaleString('es-CO')} COP
                 </span>
               )}
             </div>

@@ -70,8 +70,8 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
                     <div className="flex-1 ml-4 pr-2">
                       <h4 className="text-xs font-bold text-slate-800 line-clamp-1">{item.nombre}</h4>
                       <p className="text-[10px] text-blue-600 font-semibold">{item.nombre_establecimiento}</p>
-                      <p className="text-xs font-semibold text-slate-600 mt-1">
-                        ${item.precio_descuento.toLocaleString('es-CO')}
+                      <p className="text-xs font-bold text-slate-800 mt-1">
+                        ${item.precio_descuento.toLocaleString('es-CO')} <span className="text-[10px] text-blue-600">COP</span>
                       </p>
                     </div>
                     {/* Controles de Cantidad */}
@@ -123,8 +123,8 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
 
               <div className="flex items-baseline justify-between border-t border-slate-200 pt-3 text-slate-800">
                 <span className="text-sm font-bold">Total Compra:</span>
-                <span className="text-xl font-black text-blue-800">
-                  ${total.toLocaleString('es-CO')} COP
+                <span className="text-2xl font-black text-blue-900">
+                  ${total.toLocaleString('es-CO')} <span className="text-sm font-bold text-blue-600">COP</span>
                 </span>
               </div>
 

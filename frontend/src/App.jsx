@@ -6,6 +6,7 @@ import ProductCard from './components/ProductCard';
 import Cart from './components/Cart';
 import AuthForm from './components/AuthForm';
 import Analytics from './components/Analytics';
+import LandingPage from './components/LandingPage';
 import { Leaf, ShoppingBag, ShieldAlert, Sparkles, MapPin } from 'lucide-react';
 
 export default function App() {
@@ -25,12 +26,12 @@ export default function App() {
     {
       id: 1,
       nombre: "Bolsa de Pan Artesanal Integral",
-      nombre_establecimiento: "Panadería El Trigal - Cedritos",
-      descripcion: "Pan horneado esta mañana con masa madre y semillas de linaza. Excelente estado y frescura.",
+      nombre_establecimiento: "Panadería El Trigal",
+      descripcion: "Pan horneado esta mañana con masa madre y semillas de linaza.",
       precio_original: 8500,
       precio_descuento: 3400,
       stock: 4,
-      dias_vencimiento: 1, // Vence Mañana
+      dias_vencimiento: 1,
       categoria: "Panadería",
       imagen_url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=400",
       distancia_base: 1.2
@@ -38,67 +39,106 @@ export default function App() {
     {
       id: 2,
       nombre: "Yogurt Griego de Arándanos x4",
-      nombre_establecimiento: "Supermercado Carulla - Pepe Sierra",
+      nombre_establecimiento: "Supermercado Carulla",
       descripcion: "Pack de yogurt griego descremado. Lote con vencimiento al final del día de hoy.",
       precio_original: 16500,
       precio_descuento: 6600,
       stock: 3,
-      dias_vencimiento: 0, // Vence Hoy
+      dias_vencimiento: 0,
       categoria: "Lácteos",
       imagen_url: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=400",
       distancia_base: 0.8
     },
     {
       id: 3,
-      nombre: "Ensalada César con Pollo y Crutones",
-      nombre_establecimiento: "Restaurante Wok Calle 116",
-      descripcion: "Ensalada fresca preparada en el turno de la mañana. Excedente del almuerzo de hoy.",
-      precio_original: 24000,
-      precio_descuento: 12000,
-      stock: 2,
-      dias_vencimiento: 1, // Vence Mañana
-      categoria: "Comidas Preparadas",
-      imagen_url: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 1.5
+      nombre: "Caja de Tomates Chonto y Cebolla",
+      nombre_establecimiento: "Fruver Calle 140",
+      descripcion: "Verduras mixtas excedentes de hoy. Ideales para guisos.",
+      precio_original: 12000,
+      precio_descuento: 4800,
+      stock: 6,
+      dias_vencimiento: 2,
+      categoria: "Verduras",
+      imagen_url: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=400",
+      distancia_base: 1.6
     },
     {
       id: 4,
-      nombre: "Caja de Donas Surtidas x6 unidades",
-      nombre_establecimiento: "Panadería La Colmena",
-      descripcion: "Donas glaseadas variadas y decoradas. Horneadas al iniciar el día laboral.",
-      precio_original: 18000,
-      precio_descuento: 5400,
-      stock: 5,
-      dias_vencimiento: 0, // Vence Hoy
-      categoria: "Pastelería",
-      imagen_url: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 2.2
-    },
-    {
-      id: 5,
       nombre: "Manzanas Rojas Orgánicas x6",
       nombre_establecimiento: "Fruver Calle 140",
-      descripcion: "Bolsa de manzanas rojas frescas listas para consumo, mermas por excedentes de inventario.",
+      descripcion: "Bolsa de manzanas rojas frescas listas para consumo, mermas de inventario.",
       precio_original: 14500,
       precio_descuento: 7250,
       stock: 6,
-      dias_vencimiento: 3, // Vence en 3 días
+      dias_vencimiento: 3,
       categoria: "Frutas",
       imagen_url: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&q=80&w=400",
       distancia_base: 1.6
     },
     {
+      id: 5,
+      nombre: "Lentejas y Frijol Cargamanto (Kilo)",
+      nombre_establecimiento: "Granero El Campesino",
+      descripcion: "Granos secos con empaque averiado pero producto en perfecto estado.",
+      precio_original: 9000,
+      precio_descuento: 4500,
+      stock: 12,
+      dias_vencimiento: 15,
+      categoria: "Granos",
+      imagen_url: "https://images.unsplash.com/photo-1515543904379-3d757afe72e4?auto=format&fit=crop&q=80&w=400",
+      distancia_base: 2.5
+    },
+    {
       id: 6,
-      nombre: "Sándwich de Jamón de Pavo y Queso",
-      nombre_establecimiento: "Restaurante El Cafeto",
-      descripcion: "Sándwich en pan ciabatta con aderezos caseros. Empacado al vacío para mantener frescura.",
-      precio_original: 13000,
-      precio_descuento: 6500,
+      nombre: "Corte de Res Especial (500g)",
+      nombre_establecimiento: "Carnicería La Suprema",
+      descripcion: "Corte fresco del día, ideal para congelar o consumir inmediatamente.",
+      precio_original: 28000,
+      precio_descuento: 14000,
       stock: 2,
-      dias_vencimiento: 1, // Vence Mañana
-      categoria: "Comidas Preparadas",
-      imagen_url: "https://images.unsplash.com/photo-1521390188846-e2a3a97453a0?auto=format&fit=crop&q=80&w=400",
-      distancia_base: 0.9
+      dias_vencimiento: 0,
+      categoria: "Carnes",
+      imagen_url: "https://images.unsplash.com/photo-1603048297172-c92544798d5e?auto=format&fit=crop&q=80&w=400",
+      distancia_base: 3.1
+    },
+    {
+      id: 7,
+      nombre: "Combo Hamburguesa Clásica",
+      nombre_establecimiento: "Burger Food Truck",
+      descripcion: "Pedido cancelado en perfecto estado. Entrega inmediata.",
+      precio_original: 22000,
+      precio_descuento: 8800,
+      stock: 1,
+      dias_vencimiento: 0,
+      categoria: "Comidas Rápidas",
+      imagen_url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=400",
+      distancia_base: 0.5
+    },
+    {
+      id: 8,
+      nombre: "Surtido de Aseo y Galletas",
+      nombre_establecimiento: "Tienda de Barrio Don Pepe",
+      descripcion: "Productos de tienda variados próximos a fecha límite de venta.",
+      precio_original: 15000,
+      precio_descuento: 6000,
+      stock: 3,
+      dias_vencimiento: 4,
+      categoria: "Tienda",
+      imagen_url: "https://images.unsplash.com/photo-1604719312566-8912e9227c6a?auto=format&fit=crop&q=80&w=400",
+      distancia_base: 0.3
+    },
+    {
+      id: 9,
+      nombre: "Plato Fuerte: Pechuga a la Plancha",
+      nombre_establecimiento: "Restaurante El Cafeto",
+      descripcion: "Menú del día sobrante. Empacado al vacío para mantener frescura.",
+      precio_original: 18000,
+      precio_descuento: 7200,
+      stock: 4,
+      dias_vencimiento: 0,
+      categoria: "Restaurante",
+      imagen_url: "https://images.unsplash.com/photo-1532550907401-a500c9a57435?auto=format&fit=crop&q=80&w=400",
+      distancia_base: 1.1
     }
   ]);
 
@@ -160,93 +200,13 @@ export default function App() {
         
         {/* VISTA: INICIO */}
         {activeTab === 'inicio' && (
-          <div className="space-y-12">
-            
-            {/* Banner Principal / Hero */}
-            <div className="bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-3xl p-8 sm:p-12 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 border border-blue-950">
-              <div className="space-y-6 max-w-xl text-center md:text-left">
-                <span className="bg-orange-500 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm flex items-center justify-center w-fit mx-auto md:mx-0 space-x-1">
-                  <Sparkles className="h-3 w-3 animate-spin" />
-                  <span>ALIMOP Colombia</span>
-                </span>
-                <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-none">
-                  ¡Salva comida deliciosa, ahorra dinero y protege el ambiente!
-                </h1>
-                <p className="text-xs sm:text-sm text-blue-200 leading-relaxed">
-                  Conectamos supermercados, restaurantes y panaderías locales en Bogotá para vender sus excedentes de comida de excelente calidad con hasta el 70% de descuento. ¡Sé parte del cambio!
-                </p>
-                <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-3">
-                  <button 
-                    onClick={() => setActiveTab('compras')}
-                    className="px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs transition-premium shadow-md"
-                  >
-                    Salvar Comida Ahora
-                  </button>
-                  <button 
-                    onClick={() => setActiveTab('que-es-alimop')}
-                    className="px-6 py-3 rounded-xl bg-blue-800 bg-opacity-80 hover:bg-blue-800 border border-blue-600 text-white font-bold text-xs transition-premium"
-                  >
-                    Saber Más
-                  </button>
-                </div>
-              </div>
-
-              {/* Imagen Ilustrativa */}
-              <div className="relative w-full max-w-xs md:max-w-md">
-                <img 
-                  src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=600" 
-                  alt="Mercado Sostenible"
-                  className="rounded-2xl shadow-lg object-cover w-full h-64 border-4 border-white border-opacity-20"
-                />
-                <div className="absolute -bottom-4 -left-4 bg-white text-slate-800 p-3 rounded-xl shadow-lg border border-slate-100 flex items-center space-x-2 text-xs font-bold">
-                  <Leaf className="h-5 w-5 text-emerald-500" />
-                  <div>
-                    <span className="block text-slate-800 text-[10px] uppercase font-bold text-slate-400">Huella Ahorrada</span>
-                    <span className="block text-slate-900 font-extrabold -mt-1">1.2 Toneladas CO₂</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Ejes y estadísticas del impacto ambiental */}
-            <Analytics />
-
-            {/* Llamados a la acción para Registro / Comercios */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              
-              <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-bold text-blue-950 mb-2">¿Eres comerciante o supermercado?</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed mb-6">
-                    Reduce tus mermas, recupera el costo de producción y obtén puntos de sostenibilidad publicando tus excedentes de alimentos con fecha próxima de caducidad. ¡Es rápido y automatizado!
-                  </p>
-                </div>
-                <button 
-                  onClick={() => { setActiveTab('registro'); }}
-                  className="px-6 py-3 rounded-xl bg-azul-cabecera hover:bg-blue-700 text-white font-bold text-xs transition-premium w-fit shadow"
-                >
-                  Registrar mi Tienda / Comercio
-                </button>
-              </div>
-
-              <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-xl font-bold text-blue-950 mb-2">¿Quieres ganar dinero entregando comida?</h3>
-                  <p className="text-slate-600 text-xs leading-relaxed mb-6">
-                    Únete a nuestra flota de domiciliarios de ALIMOP en Bogotá. Reclama pedidos acumulados en tu zona y transpórtalos usando tu bicicleta, moto o vehículo. ¡Tú eliges tus horarios!
-                  </p>
-                </div>
-                <button 
-                  onClick={() => { setActiveTab('registro'); }}
-                  className="px-6 py-3 rounded-xl bg-azul-cabecera hover:bg-blue-700 text-white font-bold text-xs transition-premium w-fit shadow"
-                >
-                  Registrarme como Repartidor
-                </button>
-              </div>
-
-            </div>
-
-          </div>
+          <LandingPage 
+            productos={productos} 
+            setActiveTab={setActiveTab} 
+            setSearchQuery={setSearchQuery} 
+            gpsLocation={gpsLocation} 
+            onAddToCart={handleAddToCart} 
+          />
         )}
 
         {/* VISTA: ¿QUÉ ES ALIMOP? */}
