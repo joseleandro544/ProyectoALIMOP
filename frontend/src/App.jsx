@@ -31,9 +31,9 @@ export default function App() {
     const fetchProducts = async () => {
       try {
         setIsLoading(true);
-        // Conexión real al Backend Node.js
-        const API_URL = 'http://localhost:5000/api';
-        const response = await fetch(`${API_URL}/products?lat=${gpsLocation.lat}&lng=${gpsLocation.lng}`);
+        // Conexión dinámica inteligente para soportar localhost e IPs de red local
+        const API_URL = `http://${window.location.hostname}:5000/api`;
+        const response = await fetch(`${API_URL}/productos?lat=${gpsLocation.lat}&lng=${gpsLocation.lng}`);
         
         if (response.ok) {
           const result = await response.json();
@@ -184,6 +184,11 @@ export default function App() {
             )}
 
           </div>
+        )}
+
+        {/* VISTA: MINERÍA DE DATOS */}
+        {activeTab === 'analitica' && (
+          <Analytics />
         )}
 
         {/* VISTA: REGISTRO Y LOGIN */}

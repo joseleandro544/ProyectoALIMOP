@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, MapPin, User, ShoppingCart } from 'lucide-react';
+import logo from '../../logo.jpg';
 
 export default function Navbar({
   activeTab,
@@ -28,12 +29,9 @@ export default function Navbar({
           {/* Logo y Nombre */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('inicio')}>
             <img 
-              src="/logo.jpg" 
+              src={logo} 
               alt="Logo ALIMOP" 
               className="h-12 w-12 rounded-full border-2 border-white object-cover shadow-sm bg-white"
-              onError={(e) => {
-                e.target.style.display = 'none';
-              }} 
             />
             <div>
               <span className="text-2xl font-bold tracking-tight block">ALIMOP</span>
@@ -74,6 +72,14 @@ export default function Navbar({
               }`}
             >
               {user ? `Mi Cuenta (${user.rol})` : 'Registro'}
+            </button>
+            <button
+              onClick={() => setActiveTab('analitica')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'analitica' ? 'bg-blue-800 text-white shadow-inner' : 'hover:bg-blue-700 hover:text-white'
+              }`}
+            >
+              Minería de Datos
             </button>
           </nav>
 

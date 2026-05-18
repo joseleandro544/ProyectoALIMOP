@@ -114,6 +114,18 @@ export const registerUser = async (req, res, next) => {
       `;
       await client.query(insertDomiciliarioQuery, [userId, vehiculo_tipo, vehiculo_placa]);
     }
+    
+    // 6.5 Insertar ubicación principal por defecto (Requerido para cálculos de cercanía GPS y visualizar productos)
+    const insertUbicacionQuery = `
+      INSERT INTO ubicaciones (id_usuario, direccion, latitud, longitud, es_principal)
+      VALUES ($1, $2, $3, $4, TRUE)
+    `;
+    await client.query(insertUbicacionQuery, [
+      userId,
+      'Calle 100 # 15-20, Chicó, Bogotá',
+      4.682300,
+      -74.042500
+    ]);
 
     // 7. CONFIRMAR TRANSACCIÓN
     await client.query('COMMIT');

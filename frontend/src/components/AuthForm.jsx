@@ -30,7 +30,7 @@ export default function AuthForm({ onLoginSuccess, onRegisterSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+    const API_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5000/api`;
     
     if (isLogin) {
       if (!formData.email || !formData.password) {
@@ -55,7 +55,7 @@ export default function AuthForm({ onLoginSuccess, onRegisterSuccess }) {
           // Guardar token JWT en localStorage para futuras peticiones (como compras)
           localStorage.setItem('alimop_token', data.token);
           setTimeout(() => {
-            onLoginSuccess(data.usuario);
+            onLoginSuccess(data.user);
           }, 1000);
         } else {
           setMessage({ text: data.mensaje || 'Contraseña incorrecta o usuario no encontrado', type: 'error' });
@@ -83,7 +83,7 @@ export default function AuthForm({ onLoginSuccess, onRegisterSuccess }) {
         if (response.ok) {
           setMessage({ text: `¡Registro transaccional exitoso en PostgreSQL! Tu perfil de ${rol.toUpperCase()} fue creado.`, type: 'success' });
           setTimeout(() => {
-            onRegisterSuccess(data.usuario);
+            onRegisterSuccess(data.user);
           }, 1500);
         } else {
           setMessage({ text: data.mensaje || 'Error en el registro (Puede que el email ya exista)', type: 'error' });
@@ -345,17 +345,6 @@ export default function AuthForm({ onLoginSuccess, onRegisterSuccess }) {
         </button>
 
       </form>
-
-      {/* Información del login de prueba */}
-      {isLogin && (
-        <div className="mt-6 pt-5 border-t border-slate-100 text-[10px] text-slate-400 text-center space-y-1">
-          <p className="font-semibold text-slate-500 uppercase tracking-wider">Cuentas Semilla de Prueba:</p>
-          <p>• Comprador: <span className="font-bold text-blue-600">juan.gomez@gmail.com</span> (Clave: Leo1406)</p>
-          <p>• Proveedor: <span className="font-bold text-orange-600">carulla@carulla.com</span> (Clave: Leo1406)</p>
-          <p>• Repartidor: <span className="font-bold text-indigo-600">moto@moto.com</span> (Clave: Leo1406)</p>
-          <p>• Admin: <span className="font-bold text-red-600">admin@alimop.com</span> (Clave: Leo1406)</p>
-        </div>
-      )}
 
     </div>
   );

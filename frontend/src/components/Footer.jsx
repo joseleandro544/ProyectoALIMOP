@@ -1,5 +1,6 @@
 import React from 'react';
 import { Leaf, Info, MessageSquare, ShieldAlert } from 'lucide-react';
+import logo from '../../logo.jpg';
 
 export default function Footer({ setActiveTab }) {
   return (
@@ -11,12 +12,9 @@ export default function Footer({ setActiveTab }) {
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center space-x-2">
               <img 
-                src="/logo.jpg" 
+                src={logo} 
                 alt="Logo ALIMOP" 
                 className="h-10 w-10 rounded-full border border-white object-cover bg-white"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
               />
               <span className="text-xl font-bold tracking-wider">ALIMOP</span>
             </div>
