@@ -1,6 +1,6 @@
------ INICIO DEL PROCESO ----- 
-1. Inicializando Git... 
-Reinitialized existing Git repository in C:/Users/ENBOG16/OneDrive - Grupo Energia Bogota/Escritorio/alimop/ProyectoALIMOP/.git/
-2. Añadiendo remotos... 
-error: remote origin already exists.
-3. Preparando archivos... 
+"t" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+"t" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+"t" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
